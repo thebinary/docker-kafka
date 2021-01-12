@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#Author	    :	thebinary <binary4bytes@gmail.com>
+#Date	    :	Wed Jan 13 00:30:21 +0545 2021-01-13
+#Purpose    : Automated docker build hook: build kafka docker image (specific scala and kafka version) based on tag name
+
+SCALA_VER=${DOCKER_TAG%%-*}
+KAFKA_VER=${DOCKER_TAG##*-}
+
+docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME --build-arg SCALA_VER=$SCALA_VER --build-arg KAFKA_VER=$KAFKA_VER .
