@@ -48,4 +48,10 @@ ADD kafka-exec.sh /usr/bin/
 
 RUN set -eux; \
   echo ${INSTALL_DIR}/kafka > /etc/thebinary.kafka.install.dir; \
-  cd /usr/bin/ && for sh in $(ls ${INSTALL_DIR}/kafka/bin/); do ln -s kafka-exec.sh $sh; done
+  cd /usr/bin/ && for sh in $(ls ${INSTALL_DIR}/kafka/bin/); do ln -s kafka-exec.sh $sh; done; \
+  mkdir -p /etc/kafka; \
+  cp -a ${INSTALL_DIR}/kafka/config/server.properties /etc/kafka/server.properties
+
+EXPOSE 9092/tcp
+
+CMD kafka-server-start.sh /etc/kafka/server.properties
