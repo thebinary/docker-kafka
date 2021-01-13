@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  zookeeper:
+    image: zookeeper
+
+  kafka:
+    depends_on:
+      - zookeeper
+    image: thebinary/kafka:2.13-2.7.0
+    build:
+      context: ../../
+      args:
+        KAFKA_VER: 2.7.0
+        SCALA_VER: 2.13
+    volumes:
+      - type: bind
+        source: ./config
+        target: /etc/kafka
