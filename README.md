@@ -31,6 +31,13 @@ zookeeper.connect=zookeeper:2181
 ```sh
 docker run --network kafka -it -d -v $(PWD)/server.properties:/etc/kafka/config/server.properties thebinary/kafka
 ```
+### Enable Prometheus Exporter for Kafka Metrics
+4. Enable Prometheus Exporter(Optional)
+Export the following environment variable while starting the container.
+This makes the container listen on port 8080 for jmx exporter.
+```
+KAFKA_OPTS=-javaagent:/opt/kafka/monitoring/jmx_prometheus_javaagent.jar=8080:/opt/kafka/monitoring/config.yaml
+```
 
 ## Use as Kafka Tools
 
