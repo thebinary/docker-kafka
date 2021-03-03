@@ -13,12 +13,13 @@ ARG FULL_VER=${SCALA_VER}-${KAFKA_VER}
 ARG FILENAME=kafka_${FULL_VER}.tgz
 ARG URL=https://downloads.apache.org/kafka/${KAFKA_VER}/${FILENAME}
 ARG KEYS_URL=https://downloads.apache.org/kafka/KEYS
+ARG JMX_PROM_EXPORTER=https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.15.0/jmx_prometheus_javaagent-0.15.0.jar
 
 WORKDIR /tmp
 
 # install required packages
 RUN apk add --no-cache \
-    gnupg 
+    gnupg
 
 # download and verify
 RUN set -eux; \
@@ -35,6 +36,11 @@ RUN set -eux; \
   tar -xzf ${FILENAME}; \
   mv kafka_${FULL_VER} kafka
 
+# JMX prometheus exporter
+RUN mkdir monitoring
+RUN wget -q -O monitoring/jmx_prometheus_javaagent.jar "${JMX_PROM_EXPORTER}"
+COPY ./jmx_prometheus_exporter/config.yaml monitoring/config.yaml
+
 
 # Stage: Final Build 
 FROM openjdk:11-jre-slim
@@ -43,6 +49,7 @@ ARG INSTALL_DIR
 
 COPY --from=downloader /tmp/thebinary.kafka.version /etc/thebinary.kafka.version
 COPY --from=downloader /tmp/kafka ${INSTALL_DIR}/kafka
+COPY --from=downloader /tmp/monitoring ${INSTALL_DIR}/kafka/monitoring
 
 ADD kafka-exec.sh /usr/bin/
 

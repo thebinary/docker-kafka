@@ -16,6 +16,9 @@ services:
       - type: bind
         source: ./broker0
         target: /etc/kafka
+    environment:
+      # JMX Java agent for exporting kafka metrics to Prometheus
+      KAFKA_OPTS: -javaagent:/opt/kafka/monitoring/jmx_prometheus_javaagent.jar=8080:/opt/kafka/monitoring/config.yaml
 
   kafka1:
     depends_on:
@@ -30,6 +33,9 @@ services:
       - type: bind
         source: ./broker1
         target: /etc/kafka
+    environment:
+      # JMX Java agent for exporting kafka metrics to Prometheus
+      KAFKA_OPTS: -javaagent:/opt/kafka/monitoring/jmx_prometheus_javaagent.jar=8080:/opt/kafka/monitoring/config.yaml
 
   kafka2:
     depends_on:
@@ -44,3 +50,7 @@ services:
       - type: bind
         source: ./broker2
         target: /etc/kafka
+    environment:
+      # JMX Java agent for exporting kafka metrics to Prometheus
+      KAFKA_OPTS: -javaagent:/opt/kafka/monitoring/jmx_prometheus_javaagent.jar=8080:/opt/kafka/monitoring/config.yaml
+
