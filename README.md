@@ -35,6 +35,7 @@ docker run --network kafka -it -d -v $(PWD)/server.properties:/etc/kafka/config/
 4. Enable Prometheus Exporter(Optional)
 Export the following environment variable while starting the container.
 This makes the container listen on port 8080 for jmx exporter.
+Change the port number in the KAFKA_OPTS env variable to use a different port than 8080.
 ```
 KAFKA_OPTS=-javaagent:/opt/kafka/monitoring/jmx_prometheus_javaagent.jar=8080:/opt/kafka/monitoring/config.yaml
 ```
