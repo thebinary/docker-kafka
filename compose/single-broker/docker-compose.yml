@@ -16,6 +16,3 @@ services:
       - type: bind
         source: ./config
         target: /etc/kafka
-    environment:
-      # JMX Java agent for exporting kafka metrics to Prometheus
-      KAFKA_OPTS: -javaagent:/opt/kafka/monitoring/jmx_prometheus_javaagent.jar=8080:/opt/kafka/monitoring/config.yaml
