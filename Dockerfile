@@ -42,7 +42,6 @@ ARG INSTALL_DIR
 
 COPY --from=downloader /tmp/thebinary.kafka.version /etc/thebinary.kafka.version
 COPY --from=downloader /tmp/kafka ${INSTALL_DIR}/kafka
-COPY --from=downloader /tmp/monitoring ${INSTALL_DIR}/kafka/monitoring
 
 ADD kafka-exec.sh /usr/bin/
 
